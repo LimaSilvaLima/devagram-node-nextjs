@@ -1,16 +1,24 @@
 import type {NextApiRequest, NextApiResponse} from 'next'
+import { conectarMongoDB } from '../../middlewares/conectarMongoDB';
+import type { RespostaPadraoMsg } from '../../types/RespostaPadraoMsg';
 
-export default(
+
+
+const endpointLogin = (
     req: NextApiRequest,
-    res: NextApiResponse
+    res: NextApiResponse<RespostaPadraoMsg>
 ) => {
     if(req.method === 'POST'){
-        const {login, senha} = req.body
-        if(login === 'admin@admin.com' && senha === 'admin@123'){
-            return res.status(200).json({message: 'Login realizado com sucesso'});
+        const {login, senha} = req.body;
+        const { ADMIN_LOGIN, ADMIN_SENHA } = process.env;
+
+        if(login === ADMIN_LOGIN && senha === ADMIN_SENHA){
+            return res.status(200).json({msg: 'Login realizado com sucesso'});
         }
-        return res.status(400).json({error: 'User not found'});
+        return res.status(400).json({erro: 'User not found'});
     }
-    return res.status(405).json({error: 'Method not allowed'});
-    
+    return res.status(405).json({erro: 'Method not allowed'});
 };
+
+export default conectarMongoDB(endpointLogin);
+//export default endpointLogin;
