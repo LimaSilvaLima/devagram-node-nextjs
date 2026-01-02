@@ -3,6 +3,7 @@ import { RespostaPadraoMsg } from "../../types/RespostaPadraoMsg";
 import { CadastroRequisicao } from "../../types/CadastroRequisicao";
 import { conectarMongoDB } from '../../middlewares/conectarMongoDB';
 import { UsuarioModel } from "../../models/UsuarioModel";
+import md5 from 'md5';
 
 const endpointCadastro = async (
     req: NextApiRequest,
@@ -19,6 +20,7 @@ const endpointCadastro = async (
         if(!usuario.senha || usuario.senha.length < 4){
             return res.status(400).json({erro : 'senha invalida'});
         }
+        usuario.senha = md5(usuario.senha);
         await UsuarioModel.create(usuario);
         return res.status(200).json({msg: 'Usuario cadastrado com sucesso'});
         
