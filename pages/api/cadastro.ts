@@ -2,8 +2,9 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { RespostaPadraoMsg } from "../../types/RespostaPadraoMsg";
 import { CadastroRequisicao } from "../../types/CadastroRequisicao";
 import { conectarMongoDB } from '../../middlewares/conectarMongoDB';
+import { UsuarioModel } from "../../models/UsuarioModel";
 
-const endpointCadastro = (
+const endpointCadastro = async (
     req: NextApiRequest,
     res: NextApiResponse<RespostaPadraoMsg>
 ) => {
@@ -18,6 +19,7 @@ const endpointCadastro = (
         if(!usuario.senha || usuario.senha.length < 4){
             return res.status(400).json({erro : 'senha invalida'});
         }
+        await UsuarioModel.create(usuario);
         return res.status(200).json({msg: 'Usuario cadastrado com sucesso'});
         
     }
