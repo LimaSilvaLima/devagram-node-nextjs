@@ -4,19 +4,22 @@ import { createRouter } from 'next-connect';
 import { upload, uploadImagemCosmic } from '../../services/uploadImagemCosmic';
 import { validarTokenJWT } from "../../middlewares/validarTokenJWT";
 import { conectarMongoDB } from "../../middlewares/conectarMongoDB";
+import { publicacaoModel } from "../../models/PublicacaoModels";
+import { UsuarioModel } from "../../models/UsuarioModel";
 
 const handler = createRouter<NextApiRequest, NextApiResponse>()
     .use(upload.single('file') as any)
     .post(async (req: NextApiRequest, res: NextApiResponse<RespostaPadraoMsg>) => {
        
        try {
-
+            const { userId } = req.query;
+            const { descricao } = req.body;
+            
             if (!req || !req.body) {
                 return res.status(400).json({ erro: 'Parametros de entrada invalidos' });
             }
-            const { descricao } = req.body;
 
-            if (!descricao || descricao.length < 5) {
+            if (!descricao || descricao.length < 2) {
                 return res.status(400).json({ erro: 'Descricao invalida' });
             }
 
@@ -24,8 +27,19 @@ const handler = createRouter<NextApiRequest, NextApiResponse>()
                 return res.status(400).json({ erro: 'Imagem obrigatoria' });
             }
 
-            await uploadImagemCosmic(req);
-            // Aqui você deve adicionar a lógica para salvar a publicação no MongoDB
+            const usuario = await UsuarioModel.findById(userId);
+            if (!usuario) {
+                return res.status(400).json({ erro: 'Usuario nao encontrado' });
+            }
+
+            const imagem = await uploadImagemCosmic(req);
+            const publicacao = {
+                idUsuario: usuario._id,
+                descricao,
+                foto: imagem?.media?.url,
+                data: new Date()
+            };
+            await publicacaoModel.create(publicacao);
 
             return res.status(200).json({ msg: 'Publicacao criada com sucesso' });
        } catch (e) {
@@ -39,4 +53,4 @@ export const config = {
     }
 }
 
-export default validarTokenJWT(conectarMongoDB(handler.handler()));
+export default conectarMongoDB(validarTokenJWT(handler.handler()));
