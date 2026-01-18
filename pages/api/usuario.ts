@@ -8,4 +8,4 @@ const usuarioEndpoint = async (req: NextApiRequest, res: NextApiResponse<Respost
     //res.status(200).json({ msg: 'Usuario autenticado com sucesso', userId: req.query.userId?.toString() || '' });
 }
 
-export default conectarMongoDB(validarTokenJWT(usuarioEndpoint));
+export default validarTokenJWT(conectarMongoDB(usuarioEndpoint));
