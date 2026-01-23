@@ -15,7 +15,8 @@ const pesquisaEndpoint
                 return res.status(400).json({msg: 'Favor informar o filtro da pesquisa com no minimo 5  caracteres'});
             } 
             const usuariosEncontrados = await UsuarioModel.find({
-                nome:  {    $regex: filtro, $options: 'i'}                                                                                                                                                                                                                                                                                                                
+                $or :[{nome:  {$regex: filtro, $options: 'i'}},
+                {email:  {$regex: filtro, $options: 'i'}}]
             });
             return res.status(200).json(usuariosEncontrados);
         }
