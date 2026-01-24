@@ -29,6 +29,7 @@ const pesquisaEndpoint
             return res.status(200).json(usuariosEncontrados);
         }
         }
+        usuarioEncontrado.senha = null;
         return res.status(405).json({msg: 'Metodo informado nao e valido'});
             
     } catch (e) {
