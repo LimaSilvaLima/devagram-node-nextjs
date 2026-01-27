@@ -5,6 +5,7 @@ import { conectarMongoDB } from "../../middlewares/conectarMongoDB";
 import { UsuarioModel } from "../../models/UsuarioModel";
 import { createRouter } from "next-connect";
 import { upload, uploadImagemCosmic } from "../../services/uploadImagemCosmic";
+import { politicaCORS } from '../../middlewares/politicaCORS';
 
 const pesquisaEndpoint
     = async (req: NextApiRequest, res: NextApiResponse<RespostaPadraoMsg>  | any []) => {
@@ -38,4 +39,4 @@ const pesquisaEndpoint
     }
 }
 
-export default validarTokenJWT(conectarMongoDB(pesquisaEndpoint));
+export default politicaCORS(validarTokenJWT(conectarMongoDB(pesquisaEndpoint)));

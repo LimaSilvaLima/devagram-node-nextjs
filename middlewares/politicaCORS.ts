@@ -1,4 +1,18 @@
 import type {NextApiRequest, NextApiResponse, NextApiHandler} from 'next';
-import {RespostaPadraoMsg} from '../types/RespostaPadraoMsg';
-i
+import type { RespostaPadraoMsg } from "../types/RespostaPadraoMsg";
+import NextCors  from 'nextjs-cors';
 
+export const politicaCORS = (handler: NextApiHandler) =>
+    async (req: NextApiRequest, res: NextApiResponse<RespostaPadraoMsg>) => {
+        try {
+            await NextCors(req, res, {
+                methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
+                origin: '*',
+                optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+            });
+            return handler(req, res);
+        } catch (e) {
+            console.log("Erro ao processar a politica de CORS" + e);
+            return res.status(500).json({ erro: "Erro ao processar a politica de CORS" });
+        }
+    }

@@ -7,6 +7,7 @@ import { conectarMongoDB } from "../../middlewares/conectarMongoDB";
 import { publicacaoModel } from "../../models/PublicacaoModels";
 import { UsuarioModel } from "../../models/UsuarioModel";
 import { seguidorModel as SeguidorModel } from "../../models/SeguidorModel";
+import { politicaCORS } from '../../middlewares/politicaCORS';
 
 const endpointSeguir
     = async (req: NextApiRequest, res: NextApiResponse<RespostaPadraoMsg>) => {
@@ -55,4 +56,4 @@ const endpointSeguir
         }
     }
 
-    export default validarTokenJWT(conectarMongoDB(endpointSeguir));
+    export default politicaCORS(validarTokenJWT(conectarMongoDB(endpointSeguir)));

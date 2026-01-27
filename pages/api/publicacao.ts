@@ -6,6 +6,7 @@ import { validarTokenJWT } from "../../middlewares/validarTokenJWT";
 import { conectarMongoDB } from "../../middlewares/conectarMongoDB";
 import { publicacaoModel } from "../../models/PublicacaoModels";
 import { UsuarioModel } from "../../models/UsuarioModel";
+import { politicaCORS } from '../../middlewares/politicaCORS';
 
 const handler = createRouter<NextApiRequest, NextApiResponse>()
     .use(upload.single('file') as any)
@@ -53,4 +54,4 @@ export const config = {
     }
 }
 
-export default conectarMongoDB(validarTokenJWT(handler.handler()));
+export default politicaCORS(conectarMongoDB(validarTokenJWT(handler.handler())));

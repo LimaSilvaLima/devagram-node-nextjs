@@ -5,6 +5,7 @@ import { conectarMongoDB } from "../../middlewares/conectarMongoDB";
 import { UsuarioModel } from "../../models/UsuarioModel";
 import { createRouter } from "next-connect";
 import { upload, uploadImagemCosmic } from "../../services/uploadImagemCosmic";
+import { politicaCORS } from '../../middlewares/politicaCORS';
 
 const handler = createRouter<NextApiRequest, NextApiResponse>()
     .put(upload.single('file') as any, async (req: NextApiRequest, res: NextApiResponse<RespostaPadraoMsg>) => {
@@ -57,4 +58,4 @@ export const config = {
     }
 }
 
-export default validarTokenJWT(conectarMongoDB(handler.handler())); 
+export default politicaCORS(validarTokenJWT(conectarMongoDB(handler.handler()))); 

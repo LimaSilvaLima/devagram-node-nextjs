@@ -6,6 +6,7 @@ import { UsuarioModel } from "../../models/UsuarioModel";
 import md5 from 'md5';
 import { upload, uploadImagemCosmic } from "../../services/uploadImagemCosmic";
 import { createRouter } from "next-connect";
+import { politicaCORS } from "../../middlewares/politicaCORS";
 
 
 const handler = createRouter<NextApiRequest, NextApiResponse>()
@@ -58,4 +59,4 @@ const handler = createRouter<NextApiRequest, NextApiResponse>()
     }
     
 
-export default conectarMongoDB(handler.handler());
+export default politicaCORS(conectarMongoDB(handler.handler()));
