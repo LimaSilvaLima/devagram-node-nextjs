@@ -45,7 +45,8 @@ const handler = createRouter<NextApiRequest, NextApiResponse>()
           return res.status(400).json({ msg: 'Usuario nao encontrado' });
       }
       usuario.senha = null;
-      return res.status(200).json(usuario);
+      return res.status(200).json(usuario)
+      ;
     } catch (e) {
         console.log(e);
     }

@@ -6,6 +6,40 @@ import { publicacaoModel } from "../../models/PublicacaoModels";
 import { UsuarioModel } from "../../models/UsuarioModel";
 import { politicaCORS } from "../../middlewares/politicaCORS";
 
+/**
+ * @swagger
+ * /api/comentario:
+ *   put:
+ *     summary: Adiciona um comentário a uma publicação
+ *     tags: [Comentario]
+ *     parameters:
+ *       - in: query
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID da publicação que receberá o comentário
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               comentario:
+ *                 type: string
+ *                 minLength: 2
+ *                 description: Texto do comentário
+ *     responses:
+ *       200:
+ *         description: Comentário adicionado com sucesso
+ *       400:
+ *         description: Erro de validação (comentário inválido ou publicação não encontrada)
+ *       401:
+ *         description: Não autorizado
+ *       500:
+ *         description: Erro interno do servidor
+ */
 const comentarioEndpoint = async (req: NextApiRequest, res: NextApiResponse<RespostaPadraoMsg>) => {
     try {
        if(req.method === 'PUT') {
@@ -44,7 +78,3 @@ const comentarioEndpoint = async (req: NextApiRequest, res: NextApiResponse<Resp
 
 export default politicaCORS(validarTokenJWT(conectarMongoDB(comentarioEndpoint)));
         
-
-
-
-    
