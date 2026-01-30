@@ -9,6 +9,10 @@ const {
     CHAVE_LEITURA_AVATARES,
     BUCKET_PUBLICACOES} = process.env;
 
+if (!BUCKET_AVATARES || !CHAVE_GRAVACAO_AVATARES || !CHAVE_LEITURA_AVATARES || !BUCKET_PUBLICACOES || !CHAVE_GRAVACAO_PUBLICACOES || !CHAVE_LEITURA_PUBLICACOES) {
+    console.warn("Variáveis de ambiente do Cosmic JS estão faltando. O upload de imagens não funcionará corretamente.");
+}
+
 const bucketAvatares = createBucketClient({
     bucketSlug: BUCKET_AVATARES as string,
     writeKey: CHAVE_GRAVACAO_AVATARES as string,
