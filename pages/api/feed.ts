@@ -32,7 +32,7 @@ const feedEndpoint = async (req : NextApiRequest, res : NextApiResponse<Resposta
                     return res.status(400).json({erro : 'Usuario nao encontrado'});
                 }
 
-                const seguidores = await SeguidorModel.find({usuarioId : usuarioLogado._id});
+                const seguidores = await seguidorModel.find({usuarioId : usuarioLogado._id});
                 const seguidoresIds = seguidores.map(s => s.usuarioSeguidoId);
 
                 const publicacoes = await publicacaoModel.find({
