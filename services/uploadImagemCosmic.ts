@@ -4,16 +4,20 @@ import { createBucketClient } from "@cosmicjs/sdk";
 const {
     CHAVE_GRAVACAO_AVATARES,
     CHAVE_GRAVACAO_PUBLICACOES,
+    CHAVE_LEITURA_PUBLICACOES,
     BUCKET_AVATARES,
+    CHAVE_LEITURA_AVATARES,
     BUCKET_PUBLICACOES} = process.env;
 
 const bucketAvatares = createBucketClient({
     bucketSlug: BUCKET_AVATARES as string,
-    writeKey: CHAVE_GRAVACAO_AVATARES as string
+    writeKey: CHAVE_GRAVACAO_AVATARES as string,
+    readKey: CHAVE_LEITURA_AVATARES as string // Adicione esta linha
 });
 
 const bucketPublicacoes = createBucketClient({
     bucketSlug: BUCKET_PUBLICACOES as string,
+    readKey: CHAVE_LEITURA_PUBLICACOES as string,
     writeKey: CHAVE_GRAVACAO_PUBLICACOES as string
 });
 
