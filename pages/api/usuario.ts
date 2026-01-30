@@ -20,7 +20,7 @@ const handler = createRouter<NextApiRequest, NextApiResponse>()
                   usuario.nome = nome;
               }
 
-            const {file} = req;
+            const {file} = req as any;
             if (file && file.originalname) {
                 const image = await uploadImagemCosmic(req);
                 if (image && image.media && image.media.url) {

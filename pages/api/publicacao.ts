@@ -24,7 +24,7 @@ const handler = createRouter<NextApiRequest, NextApiResponse>()
                 return res.status(400).json({ erro: 'Descricao invalida' });
             }
 
-            if (!req.file || !req.file.originalname) {
+            if (!(req as any).file || !(req as any).file.originalname) {
                 return res.status(400).json({ erro: 'Imagem obrigatoria' });
             }
 
