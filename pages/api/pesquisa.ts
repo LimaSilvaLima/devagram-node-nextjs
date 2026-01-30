@@ -8,7 +8,7 @@ import { upload, uploadImagemCosmic } from "../../services/uploadImagemCosmic";
 import { politicaCORS } from '../../middlewares/politicaCORS';
 
 const pesquisaEndpoint
-    = async (req: NextApiRequest, res: NextApiResponse<RespostaPadraoMsg>  | any []) => {
+    = async (req: NextApiRequest, res: NextApiResponse<RespostaPadraoMsg | any[]>) => {
     try {
         if(req.method === 'GET') {
             if(req?.query.id) {
@@ -30,7 +30,6 @@ const pesquisaEndpoint
             return res.status(200).json(usuariosEncontrados);
         }
         }
-        usuarioEncontrado.senha = null;
         return res.status(405).json({msg: 'Metodo informado nao e valido'});
             
     } catch (e) {
