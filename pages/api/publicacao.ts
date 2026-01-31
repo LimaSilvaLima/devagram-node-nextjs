@@ -8,6 +8,7 @@ import { publicacaoModel } from "../../models/PublicacaoModels";
 import { UsuarioModel } from "../../models/UsuarioModel";
 import { politicaCORS } from '../../middlewares/politicaCORS';
 
+
 const handler = createRouter<NextApiRequest, NextApiResponse>()
     .use(upload.single('file') as any)
     .post(async (req: NextApiRequest, res: NextApiResponse<RespostaPadraoMsg>) => {
